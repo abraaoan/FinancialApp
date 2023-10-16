@@ -9,9 +9,9 @@ import SwiftUI
 import XCAStocksAPI
 
 struct StockTickerView: View {
-    
-    @StateObject var chartVM: ChartViewModel
-    @StateObject var quoteVM: TickerQuoteViewModel
+    @StateObject var chartViewModel: ChartViewModel
+    @StateObject var quoteViewModel: TickerQuoteViewModel
+    @Binding var isShowingSearch: Bool
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -25,11 +25,11 @@ struct StockTickerView: View {
         }
         .padding(.top)
         .background(Color(uiColor: .systemBackground))
-        .task(id: chartVM.selectedRange.rawValue) {
-            if quoteVM.selectQuote == nil {
-                await quoteVM.fetchQuote()
+        .task(id: chartViewModel.selectedRange.rawValue) {
+            if quoteViewModel.selectQuote == nil {
+                await quoteViewModel.fetchQuote()
             }
-            await chartVM.fetchData()
+            await chartViewModel.fetchData()
         }
     }
     
@@ -43,17 +43,17 @@ struct StockTickerView: View {
             Divider()
             
             ZStack {
-                DateRangePickerView(selectedRange: $chartVM.selectedRange)
-                    .opacity(chartVM.selectedXOpacity)
+                DateRangePickerView(selectedRange: $chartViewModel.selectedRange)
+                    .opacity(chartViewModel.selectedXOpacity)
                 
-                Text(chartVM.selectedXDateText)
+                Text(chartViewModel.selectedXDateText)
                     .font(.headline)
                     .padding(.vertical, 4)
                     .padding(.horizontal)
             }
             
             
-            Divider().opacity(chartVM.selectedXOpacity)
+            Divider().opacity(chartViewModel.selectedXOpacity)
             
             chartView
                 .padding(.horizontal)
@@ -72,25 +72,25 @@ struct StockTickerView: View {
     
     @ViewBuilder
     private var chartView: some View {
-        switch chartVM.chartState {
-        case .loading: EmptyView()//LoadingStateView()
+        switch chartViewModel.chartState {
+        case .loading: LoadingView()
         case .success:
-            if let data = chartVM.selectedChart {
-                ChartView(data: data, viewModel: chartVM)
+            if let data = chartViewModel.selectedChart {
+                ChartView(data: data, viewModel: chartViewModel)
             }
-        case .failure(let error): EmptyView()
-            //ErrorStateView(error: "Chart: \(error.localizedDescription)")
+        case .failure(let error):
+            ErrorView(error: "Chart: \(error.localizedDescription)")
         default: EmptyView()
         }
     }
     
     @ViewBuilder
     private var quoteDetailRowView: some View {
-        switch quoteVM.tickerQuotetate {
-        case .loading: EmptyView()
-        case .failure(let error): EmptyView()
+        switch quoteViewModel.tickerQuotetate {
+        case .loading: LoadingView()
+        case .failure(let error): ErrorView(error: "Quote: \(error.localizedDescription)")
         case .success:
-            if let quote = quoteVM.selectQuote {
+            if let quote = quoteViewModel.selectQuote {
                 ScrollView(.horizontal) {
                     HStack(spacing: 16) {
                         ForEach(quote.columnItems) {
@@ -110,7 +110,7 @@ struct StockTickerView: View {
     
     private var priceDiffRowView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let quote = quoteVM.selectQuote {
+            if let quote = quoteViewModel.selectQuote {
                 HStack {
                     if quote.isTrading,
                        let price = quote.regularPriceText,
@@ -137,11 +137,11 @@ struct StockTickerView: View {
     
     private var exchangeCurrencyView: some View {
         HStack(spacing: 4) {
-            if let exchange = quoteVM.ticker.exchDisp {
+            if let exchange = quoteViewModel.ticker.exchDisp {
                 Text(exchange)
             }
             
-            if let currency = quoteVM.selectQuote?.currency {
+            if let currency = quoteViewModel.selectQuote?.currency {
                 Text("·")
                 Text(currency)
             }
@@ -168,31 +168,42 @@ struct StockTickerView: View {
     
     private var headerView: some View {
         HStack(alignment: .lastTextBaseline) {
-            Text(quoteVM.ticker.symbol).font(.title.bold())
-            if let shortName = quoteVM.ticker.shortname {
+            Text(quoteViewModel.ticker.symbol).font(.title.bold())
+            if let shortName = quoteViewModel.ticker.shortname {
                 Text(shortName)
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(Color(uiColor: .secondaryLabel))
             }
             Spacer()
-            closeButton
+            searchButton
         }
     }
     
-    private var closeButton: some View {
+    private var searchButton: some View {
         Button {
-            dismiss()
+            Task {
+                await dismissStockView()
+                await showSearch()
+            }
         } label: {
             Circle()
                 .frame(width: 36, height: 36)
                 .foregroundColor(.gray.opacity(0.1))
                 .overlay {
-                    Image(systemName: "xmark")
+                    Image(systemName: "magnifyingglass")
                         .font(.system(size: 18).bold())
                         .foregroundColor(Color(uiColor: .secondaryLabel))
                 }
         }
         .buttonStyle(.plain)
+    }
+    
+    private func dismissStockView() async {
+        dismiss()
+    }
+    
+    private func showSearch() async {
+        isShowingSearch.toggle()
     }
 }
 
@@ -238,21 +249,26 @@ struct StockTickerView_Previews: PreviewProvider {
         ChartViewModel(ticker: .stub, dataService: MockStocksAPI())
     }
     
+    @State static var isShowingSearch: Bool = false
+    
     static var previews: some View {
+        
+        
+        
         Group {
-            StockTickerView(chartVM: chartVM, quoteVM: tradingStubsQuoteVM)
+            StockTickerView(chartViewModel: chartVM, quoteViewModel: tradingStubsQuoteVM, isShowingSearch: $isShowingSearch)
                 .previewDisplayName("Trading")
                 .frame(height: 700)
             
-            StockTickerView(chartVM: chartVM, quoteVM: closedStubsQuoteVM)
+            StockTickerView(chartViewModel: chartVM, quoteViewModel: closedStubsQuoteVM, isShowingSearch: $isShowingSearch)
                 .previewDisplayName("Closed")
                 .frame(height: 700)
             
-            StockTickerView(chartVM: chartVM, quoteVM: loadingStubsQuoteVM)
+            StockTickerView(chartViewModel: chartVM, quoteViewModel: loadingStubsQuoteVM, isShowingSearch: $isShowingSearch)
                 .previewDisplayName("Loading Quote")
                 .frame(height: 700)
             
-            StockTickerView(chartVM: chartVM, quoteVM: errorStubsQuoteVM)
+            StockTickerView(chartViewModel: chartVM, quoteViewModel: errorStubsQuoteVM, isShowingSearch: $isShowingSearch)
                 .previewDisplayName("Error Quote")
                 .frame(height: 700)
             

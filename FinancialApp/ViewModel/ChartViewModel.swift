@@ -23,6 +23,7 @@ protocol ChartViewModelProtocol: ObservableObject {
     func fetchData() async
 }
 
+@MainActor
 class ChartViewModel: ObservableObject {
     @Published var chartState: RequestState = .initial
     var selectedChart: ChartViewData?

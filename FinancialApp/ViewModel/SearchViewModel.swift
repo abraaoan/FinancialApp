@@ -34,7 +34,7 @@ class SearchViewModel: ObservableObject {
     
     private var trimmedQuery: String { query.trimmingCharacters(in: .whitespacesAndNewlines) }
     private var cancellables = Set<AnyCancellable>()
-    private let dataService: DataServiceProtocol
+    let dataService: DataServiceProtocol
     
     init(query: String = "", dataService: DataServiceProtocol = XCAStocksAPI()) {
         self.query = query

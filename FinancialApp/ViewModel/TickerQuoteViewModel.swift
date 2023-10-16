@@ -8,19 +8,28 @@
 import Foundation
 import XCAStocksAPI
 
+protocol TickerQuoteViewModelProtocol: ObservableObject {
+    var tickerQuotetate: RequestState { get }
+    var selectQuote: Quote? { get }
+    
+    func fetchQuote() async
+}
+
 @MainActor
 class TickerQuoteViewModel: ObservableObject {
     @Published var tickerQuotetate: RequestState = .initial
     var selectQuote: Quote?
-    
+
     let ticker: Ticker
-    let dataService: DataServiceProtocol
+    private let dataService: DataServiceProtocol
     
     init(ticker: Ticker, dataService: DataServiceProtocol) {
         self.ticker = ticker
         self.dataService = dataService
     }
-    
+}
+
+extension TickerQuoteViewModel: TickerQuoteViewModelProtocol {
     func fetchQuote() async {
         tickerQuotetate = .loading
         
@@ -37,5 +46,4 @@ class TickerQuoteViewModel: ObservableObject {
             tickerQuotetate = .failure(error)
         }
     }
-    
 }

@@ -34,6 +34,9 @@
 		A161C4462ADD7412000BE893 /* MockStocksAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C4422ADD7412000BE893 /* MockStocksAPI.swift */; };
 		A161C4482ADD79CE000BE893 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C4472ADD79CE000BE893 /* DataService.swift */; };
 		A161C44A2ADD7AD3000BE893 /* TickerQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C4492ADD7AD3000BE893 /* TickerQuoteViewModel.swift */; };
+		A161C44C2ADD8ACF000BE893 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C44B2ADD8ACF000BE893 /* LoadingView.swift */; };
+		A161C44E2ADD8B36000BE893 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C44D2ADD8B36000BE893 /* EmptyResultView.swift */; };
+		A161C4502ADD8BA6000BE893 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C44F2ADD8BA6000BE893 /* ErrorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,9 @@
 		A161C4422ADD7412000BE893 /* MockStocksAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockStocksAPI.swift; sourceTree = "<group>"; };
 		A161C4472ADD79CE000BE893 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		A161C4492ADD7AD3000BE893 /* TickerQuoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerQuoteViewModel.swift; sourceTree = "<group>"; };
+		A161C44B2ADD8ACF000BE893 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		A161C44D2ADD8B36000BE893 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
+		A161C44F2ADD8BA6000BE893 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +144,7 @@
 				A161C3EC2ADADC88000BE893 /* ContentView.swift */,
 				A161C3EA2ADADC88000BE893 /* FinancialAppApp.swift */,
 				A161C4142ADADCCA000BE893 /* DataService */,
-				A161C4162ADADCD8000BE893 /* Factory */,
+				A161C4162ADADCD8000BE893 /* Common */,
 				A161C4152ADADCD0000BE893 /* Model */,
 				A161C4172ADADCE6000BE893 /* Others */,
 				A161C3F02ADADC89000BE893 /* Preview Content */,
@@ -189,11 +195,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A161C4162ADADCD8000BE893 /* Factory */ = {
+		A161C4162ADADCD8000BE893 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				A161C44B2ADD8ACF000BE893 /* LoadingView.swift */,
+				A161C44D2ADD8B36000BE893 /* EmptyResultView.swift */,
+				A161C44F2ADD8BA6000BE893 /* ErrorView.swift */,
 			);
-			path = Factory;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		A161C4172ADADCE6000BE893 /* Others */ = {
@@ -397,9 +406,11 @@
 				A161C3ED2ADADC88000BE893 /* ContentView.swift in Sources */,
 				A161C4462ADD7412000BE893 /* MockStocksAPI.swift in Sources */,
 				A161C4432ADD7412000BE893 /* Chart+Stubs.swift in Sources */,
+				A161C44C2ADD8ACF000BE893 /* LoadingView.swift in Sources */,
 				A161C43D2ADD733D000BE893 /* StockTickerView.swift in Sources */,
 				A161C43A2ADD733D000BE893 /* ChartView.swift in Sources */,
 				A161C42C2ADD7145000BE893 /* Foudation+Extensions.swift in Sources */,
+				A161C4502ADD8BA6000BE893 /* ErrorView.swift in Sources */,
 				A161C43B2ADD733D000BE893 /* QuoteDetailRowColumnView.swift in Sources */,
 				A161C4202ADD466B000BE893 /* SearchView.swift in Sources */,
 				A161C4222ADD467C000BE893 /* SearchViewModel.swift in Sources */,
@@ -415,6 +426,7 @@
 				A161C4342ADD72F0000BE893 /* Utils.swift in Sources */,
 				A161C43C2ADD733D000BE893 /* DateRangePickerView.swift in Sources */,
 				A161C4452ADD7412000BE893 /* Stubs.swift in Sources */,
+				A161C44E2ADD8B36000BE893 /* EmptyResultView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

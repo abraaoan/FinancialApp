@@ -9,7 +9,7 @@ import SwiftUI
 import XCAStocksAPI
 
 struct SearchView<SearchViewModelObservable>: View where SearchViewModelObservable: SearchViewModelProtocol {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: SearchViewModelObservable
     
     var body: some View {
@@ -36,35 +36,13 @@ struct SearchView<SearchViewModelObservable>: View where SearchViewModelObservab
     @ViewBuilder
     private var searchOverlay: some View {
         switch viewModel.searchState {
-        case .empty: emptyView
+        case .empty: EmptyResultView(message: viewModel.emptyListText)
         case .failure(let error):
             ErrorView(error: error.localizedDescription) {
                 Task { await viewModel.searchTickers() }
             }
-        case .loading: loadingView
+        case .loading: LoadingView()
         default: EmptyView()
-        }
-    }
-    
-    private var emptyView: some View {
-        HStack {
-            Spacer()
-            Text(viewModel.emptyListText)
-                .font(.headline)
-                .foregroundColor(Color(uiColor: .secondaryLabel))
-            Spacer()
-        }
-        .padding(64)
-        .lineLimit(3)
-        .multilineTextAlignment(.center)
-    }
-    
-    private var loadingView: some View {
-        HStack {
-            Spacer()
-            ProgressView()
-                .progressViewStyle(.circular)
-            Spacer()
         }
     }
 }
@@ -73,26 +51,5 @@ struct SearchView_Previews: PreviewProvider {
     static let viewModel = SearchViewModel()
     static var previews: some View {
         SearchView(viewModel: viewModel)
-    }
-}
-
-struct ErrorView: View {
-    let error: String
-    var retryHandler: (() -> ())? = nil
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            VStack(spacing: 16) {
-                Text(error)
-                if let retryHandler {
-                    Button("Try again", action: retryHandler)
-                        .buttonStyle(.borderedProminent)
-                }
-                
-            }
-            Spacer()
-        }
-        .padding(64)
     }
 }

@@ -8,30 +8,36 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     @State var isShowingSearch: Bool = false
+    @StateObject var searchViewModel = SearchViewModel()
     
     var body: some View {
         NavigationView {
-            VStack {
-                
-                // Initial state
-                Text("Welcome to Stock App Challenge")
-                
-                // Search button
-                Button("Search an entity") {
-                    isShowingSearch.toggle()
-                }
-                .padding()
-                .background(.blue)
-                .foregroundColor(.white)
-                .font(.system(size: 17, weight: .bold))
-                .cornerRadius(10)
-                .padding(.top)
-                
-            }
+            emptyView
         }.sheet(isPresented: $isShowingSearch) {
-            SearchView(viewModel: SearchViewModel())
+            SearchView(viewModel: searchViewModel)
+        }.sheet(item: $searchViewModel.selectedTicker) { ticket in
+            StockTickerView(chartViewModel: ChartViewModel(ticker: ticket,
+                                                           dataService: searchViewModel.dataService),
+                            quoteViewModel: .init(ticker: ticket, dataService: searchViewModel.dataService),
+                            isShowingSearch: $isShowingSearch)
+            .presentationDetents([.height(560)])
+        }
+    }
+    
+    var emptyView: some View {
+        VStack {
+            Text("Welcome to Stock App Challenge")
+            Button("Start here") {
+                isShowingSearch.toggle()
+            }
+            .padding()
+            .background(.blue)
+            .foregroundColor(.white)
+            .font(.system(size: 17, weight: .bold))
+            .cornerRadius(10)
+            .padding(.top)
+            
         }
     }
 }
