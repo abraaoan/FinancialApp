@@ -13,7 +13,7 @@ Project group organization:
     ├── View                          # All views used in the project
     └── ViewModel                     # All viewmodels
 
-## Things I'd like to do if I had more time
+## Things I would do if I had more time
 1. Create a home with a list of saved quotes
 2. Cover more code with tests
 3. Create my own data service
