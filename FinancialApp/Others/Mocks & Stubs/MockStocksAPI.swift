@@ -10,10 +10,13 @@ import XCAStocksAPI
 
 #if DEBUG
 struct MockStocksAPI: DataServiceProtocol {
-    
-    var stubbedSearchTickersCallback: (() async throws -> [Ticker])!
+    var stubbedSearchTickersCallback: (() async throws -> [Ticker])?
     func searchTickers(query: String, isEquityTypeOnly: Bool) async throws -> [Ticker] {
-        try await stubbedSearchTickersCallback()
+        guard let tickets = try await stubbedSearchTickersCallback?() else {
+            throw MockSearchError.noTickersSet
+        }
+        
+        return tickets
     }
     
     var stubbedFetchQuotesCallback: (() async throws -> [Quote])!
@@ -27,4 +30,9 @@ struct MockStocksAPI: DataServiceProtocol {
     }
     
 }
+
+enum MockSearchError: Error {
+    case noTickersSet
+}
+
 #endif

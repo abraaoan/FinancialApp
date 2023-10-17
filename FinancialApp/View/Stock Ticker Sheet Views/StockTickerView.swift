@@ -252,9 +252,6 @@ struct StockTickerView_Previews: PreviewProvider {
     @State static var isShowingSearch: Bool = false
     
     static var previews: some View {
-        
-        
-        
         Group {
             StockTickerView(chartViewModel: chartVM, quoteViewModel: tradingStubsQuoteVM, isShowingSearch: $isShowingSearch)
                 .previewDisplayName("Trading")

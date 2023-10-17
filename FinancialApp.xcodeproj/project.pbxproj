@@ -37,6 +37,9 @@
 		A161C44C2ADD8ACF000BE893 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C44B2ADD8ACF000BE893 /* LoadingView.swift */; };
 		A161C44E2ADD8B36000BE893 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C44D2ADD8B36000BE893 /* EmptyResultView.swift */; };
 		A161C4502ADD8BA6000BE893 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C44F2ADD8BA6000BE893 /* ErrorView.swift */; };
+		A161C4532ADDB662000BE893 /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C4522ADDB662000BE893 /* SearchViewModelTests.swift */; };
+		A161C4552ADE7C6E000BE893 /* ChartViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C4542ADE7C6E000BE893 /* ChartViewModelTests.swift */; };
+		A161C4572ADE8387000BE893 /* TickerQuoteViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A161C4562ADE8387000BE893 /* TickerQuoteViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +92,9 @@
 		A161C44B2ADD8ACF000BE893 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A161C44D2ADD8B36000BE893 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
 		A161C44F2ADD8BA6000BE893 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		A161C4522ADDB662000BE893 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
+		A161C4542ADE7C6E000BE893 /* ChartViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModelTests.swift; sourceTree = "<group>"; };
+		A161C4562ADE8387000BE893 /* TickerQuoteViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerQuoteViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +171,7 @@
 		A161C3FA2ADADC89000BE893 /* FinancialAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				A161C4512ADDB460000BE893 /* ViewModel */,
 				A161C3FB2ADADC89000BE893 /* FinancialAppTests.swift */,
 			);
 			path = FinancialAppTests;
@@ -265,6 +272,16 @@
 				A161C4422ADD7412000BE893 /* MockStocksAPI.swift */,
 			);
 			path = "Mocks & Stubs";
+			sourceTree = "<group>";
+		};
+		A161C4512ADDB460000BE893 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A161C4522ADDB662000BE893 /* SearchViewModelTests.swift */,
+				A161C4542ADE7C6E000BE893 /* ChartViewModelTests.swift */,
+				A161C4562ADE8387000BE893 /* TickerQuoteViewModelTests.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -434,7 +451,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A161C4532ADDB662000BE893 /* SearchViewModelTests.swift in Sources */,
+				A161C4572ADE8387000BE893 /* TickerQuoteViewModelTests.swift in Sources */,
 				A161C3FC2ADADC89000BE893 /* FinancialAppTests.swift in Sources */,
+				A161C4552ADE7C6E000BE893 /* ChartViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
